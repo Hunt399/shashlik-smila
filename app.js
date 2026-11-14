@@ -795,7 +795,9 @@ function setupDialogs() {
   document.getElementById("headerCartBtn")?.addEventListener("click", openCheckout);
   document.getElementById("stickyCheckoutBtn")?.addEventListener("click", openCheckout);
   document.getElementById("openPostersBtn")?.addEventListener("click", () => {
-    postersDialog?.showModal();
+    if (!postersDialog) return;
+    postersDialog.showModal();
+    postersDialog.scrollTop = 0;
   });
 }
 
