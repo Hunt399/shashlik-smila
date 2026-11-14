@@ -2,27 +2,45 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ШАШЛИК СМІЛА — Мангал-меню та Чебуреки від Василя | Замовлення та Доставка</title>
   <meta name="description" content="Справжній шашлик зі свинячого ошийка та курки, фірмова шаурма з мангала, люля-кебаб, хачапурі на шампурі та 5 видів авторських чебуреків у м. Сміла, вул. Богдана Хмельницького, 7. Замовлення онлайн та доставка щодня 09:00–21:00.">
   <meta name="theme-color" content="#120f0d">
+  <link rel="canonical" href="https://hunt399.github.io/shashlik-smila/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="uk_UA">
+  <meta property="og:site_name" content="ШАШЛИК СМІЛА">
+  <meta property="og:title" content="ШАШЛИК СМІЛА — шашлик, чебуреки та шаурма з мангала у Смілі">
+  <meta property="og:description" content="Шашлик на вугіллі, фірмова шаурма з мангала, люля-кебаб, 5 видів чебуреків та домашня тушонка. Сміла, вул. Богдана Хмельницького, 7. Щодня 09:00–21:00, замовлення онлайн.">
+  <meta property="og:url" content="https://hunt399.github.io/shashlik-smila/">
+  <meta property="og:image" content="https://hunt399.github.io/shashlik-smila/assets/hd-pork-shashlik.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="960">
+  <meta property="og:image:height" content="716">
+  <meta property="og:image:alt" content="Соковитий шашлик зі свинячого ошийка на шампурах від Василя">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ШАШЛИК СМІЛА — шашлик, чебуреки та шаурма з мангала у Смілі">
+  <meta name="twitter:description" content="Шашлик на вугіллі, шаурма з мангала, чебуреки та домашня тушонка. Сміла, вул. Богдана Хмельницького, 7. Щодня 09:00–21:00.">
+  <meta name="twitter:image" content="https://hunt399.github.io/shashlik-smila/assets/hd-pork-shashlik.jpg">
   <link rel="icon" type="image/jpeg" href="assets/avatar-cheburek.jpg">
-  <link rel="stylesheet" href="styles.css?v=20261114-2">
+  <link rel="stylesheet" href="styles.css?v=20261114-4">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "FastFoodRestaurant",
     "name": "ШАШЛИК СМІЛА — Мангал & Чебуреки від Василя",
+    "url": "https://hunt399.github.io/shashlik-smila/",
     "alternateName": ["Шашлик Сміла", "Чебуреки Лаваші", "shashlik_vasya_chebureki"],
     "image": [
-      "assets/hd-pork-shashlik.jpg",
-      "assets/hd-shaurma-mangal.jpg",
-      "assets/hd-chebureki-classic.jpg",
-      "assets/hd-combo-feast.jpg",
-      "assets/avatar-cheburek.jpg"
+      "https://hunt399.github.io/shashlik-smila/assets/hd-pork-shashlik.jpg",
+      "https://hunt399.github.io/shashlik-smila/assets/hd-shaurma-mangal.jpg",
+      "https://hunt399.github.io/shashlik-smila/assets/hd-chebureki-classic.jpg",
+      "https://hunt399.github.io/shashlik-smila/assets/hd-combo-feast.jpg",
+      "https://hunt399.github.io/shashlik-smila/assets/avatar-cheburek.jpg"
     ],
-    "description": "Авторський стрітфуд у Смілі: шашлик на вугіллі, люля-кебаб, фірмова шаурма з мангала, хачапурі на шампурі, крильця KFC та 5 видів гарячих чебуреків.",
+    "description": "Авторський стрітфуд у Смілі: шашлик на вугіллі, люля-кебаб, фірмова шаурма з мангала, хачапурі на шампурі, хрусткі крильця та 5 видів гарячих чебуреків.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "вулиця Богдана Хмельницького, 7",
@@ -97,15 +115,16 @@
       </nav>
 
       <div class="header-actions">
-        <div class="status-pill" id="openStatusBadge" aria-live="polite">
+        <div class="status-pill" id="openStatusBadge" data-open-status aria-live="polite">
           <span class="status-dot"></span>
-          <span id="openStatusText">Щодня 09:00–21:00</span>
+          <span class="status-text" id="openStatusText">Щодня 09:00–21:00</span>
         </div>
-        <a href="tel:+380933030400" class="phone-chip" aria-label="Подзвонити 093 303 04 00">
-          📞 <span>093 303-04-00</span>
+        <a href="tel:+380933030400" class="phone-chip" aria-label="Подзвонити 093 303-04-00">
+          <span aria-hidden="true">📞</span> <span class="phone-chip-text">093 303-04-00</span>
         </a>
         <button type="button" class="cart-trigger" id="headerCartBtn" aria-label="Відкрити кошик замовлення">
-          <span>🛒 Кошик</span>
+          <span class="cart-icon" aria-hidden="true">🛒</span>
+          <span class="cart-label">Кошик</span>
           <span class="cart-badge" id="headerCartCount">0</span>
         </button>
       </div>
@@ -125,8 +144,12 @@
               class="tiktok-pill"
             >
               <span class="tiktok-dot">▶</span>
-              <span>TikTok <strong>@shashlik_vasya_chebureki</strong> · 425 відео · 4.5K підписників · 60.6K ❤️</span>
+              <span>Ми в TikTok — понад 400 відео з кухні</span>
             </a>
+            <span class="status-pill status-pill-hero" data-open-status aria-live="polite">
+              <span class="status-dot"></span>
+              <span class="status-text">Щодня 09:00–21:00</span>
+            </span>
             <span class="fire-pill">🔥 Мангал · Чебуреки · Домашня Тушонка</span>
           </div>
 
@@ -305,14 +328,14 @@
             <span class="eyebrow">ІДЕАЛЬНО ДО ХОЛОДНИХ НАПОЇВ, ПИВА ТА ДРУЖНЬОЇ КОМПАНІЇ</span>
             <h2>Збираєтесь компанією або замовляєте вечерю додому?</h2>
             <p>
-              Додайте у замовлення свіжий шашлик зі свинячого ошийка чи курки, крильця KFC (1 кг — 300 ₴), картоплю по-селянськи та мариновану цибульку. При замовленні від <strong>700 ₴</strong> по ближній зоні Сміли — доставка безкоштовна!
+              Додайте у замовлення свіжий шашлик зі свинячого ошийка чи курки, хрусткі крильця (1 кг — 300 ₴), картоплю по-селянськи та мариновану цибульку. При замовленні від <strong>700 ₴</strong> по ближній зоні Сміли — доставка безкоштовна!
             </p>
             <div class="combo-actions">
               <button type="button" class="btn btn-primary" data-filter-jump="combos">
                 Обрати готовий сет
               </button>
-              <a href="tel:+380937729935" class="btn btn-outline">
-                📞 Замовити телефоном: 093 772-99-35
+              <a href="tel:+380933030400" class="btn btn-outline">
+                📞 Замовити телефоном: 093 303-04-00
               </a>
             </div>
           </div>
@@ -340,7 +363,7 @@
       <div class="container">
         <div class="section-header">
           <div>
-            <span class="eyebrow">НАША ВІДКРИТА КУХНЯ В TIKTOK · 425 ВІДЕО</span>
+            <span class="eyebrow">НАША ВІДКРИТА КУХНЯ В TIKTOK</span>
             <h2>Живі кадри з мангала та кухні Василя — @shashlik_vasya_chebureki</h2>
           </div>
           <a
@@ -349,7 +372,7 @@
             rel="noopener noreferrer"
             class="btn btn-outline"
           >
-            Перейти в TikTok (4 539 підписників) ↗
+            Дивіться нас у TikTok ↗
           </a>
         </div>
 
@@ -368,7 +391,7 @@
               loading="lazy"
             >
             <div class="showcase-info">
-              <span class="showcase-tag">🔥 Хіт з вогню · 5.4K переглядів</span>
+              <span class="showcase-tag">🔥 Хіт з вогню</span>
               <h3>Соковиті реберця + шашличок</h3>
               <p>Подача у свіжому лаваші з маринованою червоною капустою та цибулькою просто з мангала.</p>
               <span class="showcase-order-link">Замовити бокс (380 ₴) →</span>
@@ -410,7 +433,7 @@
               loading="lazy"
             >
             <div class="showcase-info">
-              <span class="showcase-tag">📦 14.9K переглядів · Фірмова подача</span>
+              <span class="showcase-tag">📦 Фірмова подача</span>
               <h3>Чебуреки 200 г у крафтових коробках</h3>
               <p>Ручна розкатка тіста дівчатами та смаження у свіжій прозорій олії. Пакуємо у плоскі коробки, щоб зберегти хрускіт!</p>
               <span class="showcase-order-link">Обрати чебурек (від 80 ₴) →</span>
@@ -590,7 +613,7 @@
         <span class="sticky-cart-hint" id="stickyFreeDeliveryHint">Додайте страви для замовлення</span>
       </div>
       <button type="button" class="btn btn-primary" id="stickyCheckoutBtn">
-        Оформити замовлення →
+        Оформити<span class="btn-extra"> замовлення</span> →
       </button>
     </div>
   </div>
@@ -623,7 +646,7 @@
             <span class="pb-item-price">80 ₴ <small>/ 100 г</small></span>
           </button>
 
-          <button type="button" class="price-board-item" data-jump-item="pork-ribs">
+          <button type="button" class="price-board-item" data-jump-item="pork-ribs-bbq">
             <img src="assets/hd-pork-ribs.webp" alt="Соковиті реберця BBQ на мангалі" width="56" height="56" loading="lazy">
             <span class="pb-item-text">
               <strong>Соковиті реберця BBQ / Хрящові</strong>
@@ -650,7 +673,7 @@
             <span class="pb-item-price">50 ₴ <small>/ 100 г</small></span>
           </button>
 
-          <button type="button" class="price-board-item" data-jump-item="wings-mangal">
+          <button type="button" class="price-board-item" data-jump-item="mangal-wings">
             <img src="assets/hd-wings.webp" alt="Крила на мангалі" width="56" height="56" loading="lazy">
             <span class="pb-item-text">
               <strong>Крила на мангалі з димком</strong>
@@ -695,16 +718,16 @@
             <span class="pb-item-price">60 ₴</span>
           </button>
 
-          <button type="button" class="price-board-item" data-jump-item="wings-kfc">
-            <img src="assets/hd-wings.webp" alt="Крильця KFC" width="56" height="56" loading="lazy">
+          <button type="button" class="price-board-item" data-jump-item="kfc-wings">
+            <img src="assets/hd-wings.webp" alt="Хрусткі крильця" width="56" height="56" loading="lazy">
             <span class="pb-item-text">
-              <strong>Крильця KFC хрусткі</strong>
+              <strong>Хрусткі крильця у казані</strong>
               <small>150 ₴ (500 г) · або великий сет 1 кг</small>
             </span>
             <span class="pb-item-price">300 ₴ <small>/ 1 кг</small></span>
           </button>
 
-          <button type="button" class="price-board-item" data-jump-item="potatoes-peasant">
+          <button type="button" class="price-board-item" data-jump-item="country-potatoes">
             <img src="assets/hd-potatoes.webp" alt="Картопля по-селянськи" width="56" height="56" loading="lazy">
             <span class="pb-item-text">
               <strong>Картопля по-селянськи з часником</strong>
@@ -1001,31 +1024,38 @@
       <!-- Order Confirmation Box (shown after submit) -->
       <div id="orderConfirmationBox" class="order-confirmation" hidden>
         <div class="confirm-header">
-          <span class="confirm-badge">🎉 Замовлення сформовано!</span>
-          <h3 id="confirmOrderNumber">Замовлення #101</h3>
-          <p id="confirmServerStatus">
-            Ваш чек готовий. Надішліть його у Telegram/Viber або підтвердіть дзвінком Василю, щоб мангал одразу став до роботи:
+          <h3 id="confirmOrderNumber" class="confirm-title" tabindex="-1">📋 Чек №101 готовий — залишився один крок</h3>
+          <p id="confirmServerStatus" class="confirm-status">
+            Замовлення ще не надіслано. Надішліть чек Васі зручним способом нижче або зателефонуйте — ми підтвердимо час.
           </p>
         </div>
         <pre id="confirmReceiptText" class="receipt-preview"></pre>
+        <p id="confirmCopyStatus" class="confirm-copy-note" role="status"></p>
         <div class="confirm-actions">
-          <a id="confirmTelegramShareBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-            ✈️ Надіслати у Telegram
+          <a id="confirmCallBtn" href="tel:+380933030400" class="btn btn-primary btn-lg">
+            📞 Подзвонити Васі: 093 303-04-00
           </a>
-          <a id="confirmViberShareBtn" href="#" class="btn btn-outline">
-            💬 Відкрити у Viber
+          <a id="confirmViberShareBtn" href="viber://chat?number=%2B380933030400" class="btn btn-outline">
+            💜 Написати у Viber
+          </a>
+          <a id="confirmTelegramShareBtn" href="https://t.me/+380933030400" target="_blank" rel="noopener" class="btn btn-outline">
+            ✈️ Написати в Telegram
+          </a>
+          <a id="confirmSmsBtn" href="sms:+380933030400" class="btn btn-outline">
+            ✉️ SMS з чеком
           </a>
           <button type="button" id="copyReceiptBtn" class="btn btn-outline">
             📋 Скопіювати чек
           </button>
-          <a href="tel:+380933030400" class="btn btn-ghost">
-            📞 Подзвонити Васі: 093 303-04-00
-          </a>
+          <button type="button" id="newOrderBtn" class="btn btn-ghost btn-secondary">
+            🧹 Почати нове замовлення
+          </button>
         </div>
+        <p class="confirm-hint">Viber і Telegram відкривають чат із закладом — вставте туди скопійований чек.</p>
       </div>
     </div>
   </dialog>
 
-  <script src="app.js?v=20261114-2" defer></script>
+  <script src="app.js?v=20261114-4" defer></script>
 </body>
 </html>

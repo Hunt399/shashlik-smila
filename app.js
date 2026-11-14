@@ -5,6 +5,8 @@ const CONFIG = {
   phoneSecondary: "+380937729935",
   openHour: 9,
   closeHour: 21,
+  // Адреса, куди відправляється замовлення (POST JSON). Порожньо — бекенду немає, замовлення лише формується як чек.
+  orderEndpoint: "",
   zones: {
     zone1: { name: "Зона 1 (Вокзал Шевченка / Богдана / вул. Шевченка / Лікарня)", cost: 60, freeFrom: 700 },
     zone2: { name: "Зона 2 (Центр / Незалежності / Машбуд)", cost: 80, freeFrom: 900 },
@@ -258,7 +260,7 @@ const MENU_ITEMS = [
   {
     id: "kfc-wings",
     category: "snacks",
-    title: "Крильця KFC у казані",
+    title: "Хрусткі крильця у казані",
     badge: "🍗 Ідеально до пива",
     unitLabel: "від 250–300 ₴ / 1 кг",
     image: "assets/hd-wings.webp",
@@ -379,7 +381,7 @@ const MENU_ITEMS = [
     unitLabel: "1 кг крилець + 3 чебуреки",
     image: "assets/hd-wings-potatoes.webp",
     basePrice: 560,
-    desc: "1 кг хрустких крилець KFC + 3 класичні чебуреки (по 200 г у коробках) + 2 фірмові соуси.",
+    desc: "1 кг хрустких крилець + 3 класичні чебуреки (по 200 г у коробках) + 2 фірмові соуси.",
     addons: []
   },
   {
@@ -449,17 +451,135 @@ const MENU_ITEMS = [
   }
 ];
 
+const MENU_VERSION = "20261114";
+const CART_STORAGE_KEY = "shashlik-smila-cart-v1";
+const CART_MAX_AGE_MS = 3 * 24 * 60 * 60 * 1000;
+
 const state = {
   activeCategory: "all",
   cart: []
 };
 
+const prefersReducedMotion = () =>
+  typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const scrollBehavior = () => (prefersReducedMotion() ? "auto" : "smooth");
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (ch) => {
+    switch (ch) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      default:
+        return "&#39;";
+    }
+  });
+}
+
+/* Усі комбінації «варіант + добавки», які може створити renderMenu() для страви */
+function buildCartVariants(item) {
+  const variants = item.variants && item.variants.length ? item.variants : [null];
+  const addons = item.addons || [];
+  const result = [];
+  variants.forEach((v) => {
+    for (let mask = 0; mask < 1 << addons.length; mask += 1) {
+      const chosen = addons.filter((_, i) => mask & (1 << i));
+      const base = v ? v.price : item.basePrice || 0;
+      const unitPrice = base + chosen.reduce((sum, a) => sum + a.price, 0);
+      const meta = [
+        v ? v.label : "",
+        chosen.length ? `Додатки: ${chosen.map((a) => a.label.replace(/^\+\s*/, "")).join(", ")}` : ""
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      result.push({ key: `${item.id}|${meta}`, meta, unitPrice });
+    }
+  });
+  return result;
+}
+
+/* 0. CART PERSISTENCE (localStorage) */
+function saveCart() {
+  try {
+    if (state.cart.length === 0) {
+      localStorage.removeItem(CART_STORAGE_KEY);
+      return;
+    }
+    localStorage.setItem(
+      CART_STORAGE_KEY,
+      JSON.stringify({ menuVersion: MENU_VERSION, savedAt: Date.now(), items: state.cart })
+    );
+  } catch {
+    // Приватний режим або переповнення сховища — кошик просто не зберігається
+  }
+}
+
+function loadCart() {
+  try {
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    if (!raw) return [];
+    const data = JSON.parse(raw);
+    if (!data || data.menuVersion !== MENU_VERSION) return [];
+    if (!Number.isFinite(data.savedAt) || Date.now() - data.savedAt > CART_MAX_AGE_MS) return [];
+    if (!Array.isArray(data.items)) return [];
+
+    const valid = [];
+    data.items.forEach((it) => {
+      if (!it || typeof it !== "object") return;
+      if (typeof it.key !== "string" || typeof it.itemId !== "string") return;
+      if (!Number.isInteger(it.qty) || it.qty < 1 || it.qty > 99) return;
+      const menuItem = MENU_ITEMS.find((m) => m.id === it.itemId);
+      if (!menuItem) return;
+      // Назва, опис вибору та ціна завжди беруться з меню, а не зі сховища
+      const combo = buildCartVariants(menuItem).find((c) => c.key === it.key);
+      if (!combo || !Number.isFinite(combo.unitPrice) || combo.unitPrice <= 0) return;
+      if (valid.some((v) => v.key === combo.key)) return;
+      valid.push({
+        key: combo.key,
+        itemId: menuItem.id,
+        title: menuItem.title,
+        meta: combo.meta,
+        unitPrice: combo.unitPrice,
+        qty: it.qty
+      });
+    });
+    // Якщо щось відкинули або виправили — синхронізуємо сховище зі станом
+    const changed = valid.length !== data.items.length ||
+      valid.some((v, i) => {
+        const o = data.items[i];
+        return !o || o.key !== v.key || o.itemId !== v.itemId || o.title !== v.title ||
+          o.meta !== v.meta || o.unitPrice !== v.unitPrice || o.qty !== v.qty;
+      });
+    if (changed) {
+      const prev = state.cart;
+      state.cart = valid;
+      saveCart();
+      state.cart = prev;
+    }
+    return valid;
+  } catch {
+    return [];
+  }
+}
+
+function cartChanged() {
+  saveCart();
+  updateCartUI();
+}
+
 /* 1. OPEN/CLOSE REALTIME STATUS */
 function updateOpenStatus() {
-  const badge = document.getElementById("openStatusBadge");
-  const text = document.getElementById("openStatusText");
-  if (!badge || !text) return;
+  const badges = new Set(document.querySelectorAll("[data-open-status]"));
+  const mainBadge = document.getElementById("openStatusBadge");
+  if (mainBadge) badges.add(mainBadge);
+  if (!badges.size) return;
 
+  let isOpen = null;
   try {
     const kyivHour = Number(
       new Intl.DateTimeFormat("uk-UA", {
@@ -468,14 +588,22 @@ function updateOpenStatus() {
         hour12: false
       }).format(new Date())
     );
-    const isOpen = kyivHour >= CONFIG.openHour && kyivHour < CONFIG.closeHour;
-    badge.classList.toggle("is-closed", !isOpen);
-    text.textContent = isOpen
-      ? "Відчинено зараз · до 21:00"
-      : "Зачинено · Приймаємо замовлення на 09:00";
+    if (Number.isFinite(kyivHour)) isOpen = kyivHour >= CONFIG.openHour && kyivHour < CONFIG.closeHour;
   } catch {
-    text.textContent = "Щодня 09:00–21:00";
+    isOpen = null;
   }
+
+  badges.forEach((badge) => {
+    const text = badge.querySelector(".status-text");
+    if (!text) return;
+    if (isOpen === null) {
+      badge.classList.remove("is-closed");
+      text.textContent = "Щодня 09:00–21:00";
+      return;
+    }
+    badge.classList.toggle("is-closed", !isOpen);
+    text.textContent = isOpen ? "Відчинено зараз · до 21:00" : "Зачинено · Приймаємо замовлення на 09:00";
+  });
 }
 
 /* 2. RENDER MENU CARDS */
@@ -616,10 +744,11 @@ function renderMenu() {
 
       const existing = state.cart.find((c) => c.key === cartKey);
       if (existing) {
-        existing.qty += 1;
+        existing.qty = Math.min(99, existing.qty + 1);
       } else {
         state.cart.push({
           key: cartKey,
+          itemId: item.id,
           title: item.title,
           meta: metaParts,
           unitPrice,
@@ -627,7 +756,7 @@ function renderMenu() {
         });
       }
 
-      updateCartUI();
+      cartChanged();
       const origText = addBtn.textContent;
       addBtn.textContent = "✓ Додано";
       setTimeout(() => {
@@ -688,6 +817,7 @@ function updateCartUI() {
 
   if (headerCount) headerCount.textContent = String(count);
   if (stickyBar) stickyBar.hidden = count === 0;
+  document.body.classList.toggle("has-sticky-cart", count > 0);
   if (stickyCount) stickyCount.textContent = String(count);
   if (stickyTotal) stickyTotal.textContent = `${subtotal} ₴`;
 
@@ -709,8 +839,8 @@ function updateCartUI() {
           (item, idx) => `
           <div class="cart-item-row">
             <div class="cart-item-info">
-              <strong>${item.title}</strong>
-              ${item.meta ? `<small>${item.meta}</small>` : ""}
+              <strong>${escapeHtml(item.title)}</strong>
+              ${item.meta ? `<small>${escapeHtml(item.meta)}</small>` : ""}
             </div>
             <div class="cart-item-controls">
               <button type="button" class="qty-btn" data-cart-dec="${idx}" aria-label="Зменшити кількість">−</button>
@@ -729,7 +859,7 @@ function updateCartUI() {
           if (state.cart[i]) {
             state.cart[i].qty -= 1;
             if (state.cart[i].qty <= 0) state.cart.splice(i, 1);
-            updateCartUI();
+            cartChanged();
           }
         });
       });
@@ -738,8 +868,8 @@ function updateCartUI() {
         btn.addEventListener("click", () => {
           const i = Number(btn.dataset.cartInc);
           if (state.cart[i]) {
-            state.cart[i].qty += 1;
-            updateCartUI();
+            state.cart[i].qty = Math.min(99, state.cart[i].qty + 1);
+            cartChanged();
           }
         });
       });
@@ -921,6 +1051,48 @@ const UserInvalidFallback = (() => {
   return { init };
 })();
 
+const NOT_SENT_TEXT =
+  "Замовлення ще не надіслано. Надішліть чек Васі зручним способом нижче або зателефонуйте — ми підтвердимо час.";
+
+async function copyTextToClipboard(text) {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    // переходимо до запасного варіанта
+  }
+  let ta;
+  try {
+    ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
+    // Усередині модального діалогу решта сторінки inert, тому тимчасове поле додаємо в діалог
+    (document.getElementById("checkoutDialog") || document.body).append(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    return document.execCommand("copy");
+  } catch {
+    return false;
+  } finally {
+    ta?.remove();
+  }
+}
+
+function setupConfirmLinks(receiptText) {
+  const phone = CONFIG.phonePrimary;
+  const callBtn = document.getElementById("confirmCallBtn");
+  const viberBtn = document.getElementById("confirmViberShareBtn");
+  const tgBtn = document.getElementById("confirmTelegramShareBtn");
+  const smsBtn = document.getElementById("confirmSmsBtn");
+  if (callBtn) callBtn.href = `tel:${phone}`;
+  if (viberBtn) viberBtn.href = `viber://chat?number=${encodeURIComponent(phone)}`;
+  if (tgBtn) tgBtn.href = `https://t.me/${phone}`;
+  if (smsBtn) smsBtn.href = `sms:${phone}?&body=${encodeURIComponent(receiptText || "")}`;
+}
+
 function setupValidationAndForm() {
   document.querySelectorAll("input, select, textarea").forEach((el) => syncAria(el));
   document.addEventListener("blur", (e) => syncAria(e.target, true), true);
@@ -953,21 +1125,23 @@ function setupValidationAndForm() {
   const addressInput = document.getElementById("customerAddress");
   const deliveryZoneSelect = document.getElementById("deliveryZone");
 
-  form.querySelectorAll('input[name="fulfillment"]').forEach((radio) => {
-    radio.addEventListener("change", () => {
-      const mode = form.querySelector('input[name="fulfillment"]:checked')?.value || "pickup";
-      const needsAddress = mode === "delivery" || mode === "novaposhta";
-      if (deliveryGroup) deliveryGroup.hidden = !needsAddress;
-      if (smilaZoneField) smilaZoneField.hidden = mode !== "delivery";
-      if (addressInput) {
-        addressInput.required = needsAddress;
-        if (!needsAddress) {
-          addressInput.value = "";
-          syncAria(addressInput);
-        }
+  const applyFulfillmentMode = () => {
+    const mode = form.querySelector('input[name="fulfillment"]:checked')?.value || "pickup";
+    const needsAddress = mode === "delivery" || mode === "novaposhta";
+    if (deliveryGroup) deliveryGroup.hidden = !needsAddress;
+    if (smilaZoneField) smilaZoneField.hidden = mode !== "delivery";
+    if (addressInput) {
+      addressInput.required = needsAddress;
+      if (!needsAddress) {
+        addressInput.value = "";
+        syncAria(addressInput);
       }
-      updateCartUI();
-    });
+    }
+    updateCartUI();
+  };
+
+  form.querySelectorAll('input[name="fulfillment"]').forEach((radio) => {
+    radio.addEventListener("change", applyFulfillmentMode);
   });
 
   deliveryZoneSelect?.addEventListener("change", updateCartUI);
@@ -1026,65 +1200,110 @@ function setupValidationAndForm() {
     const confirmBox = document.getElementById("orderConfirmationBox");
     const confirmNum = document.getElementById("confirmOrderNumber");
     const confirmStatus = document.getElementById("confirmServerStatus");
+    const copyNote = document.getElementById("confirmCopyStatus");
     const receiptPre = document.getElementById("confirmReceiptText");
-    const tgBtn = document.getElementById("confirmTelegramShareBtn");
-    const viberBtn = document.getElementById("confirmViberShareBtn");
+    const submitBtn = document.getElementById("submitOrderBtn");
 
-    if (confirmNum) confirmNum.textContent = `Замовлення #${orderNum}`;
+    if (confirmNum) confirmNum.textContent = `📋 Чек №${orderNum} готовий — залишився один крок`;
     if (receiptPre) receiptPre.textContent = receiptText;
-
-    const encoded = encodeURIComponent(receiptText);
-    if (tgBtn) tgBtn.href = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encoded}`;
-    if (viberBtn) viberBtn.href = `viber://forward?text=${encoded}`;
-
-    // Try sending to optional backend endpoint (/api/order)
-    try {
-      const res = await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderNum,
-          name,
-          phone,
-          fulfillment,
-          address,
-          readyTime,
-          payment,
-          comment,
-          items: state.cart,
-          subtotal,
-          deliveryLabel,
-          grandTotal,
-          receiptText
-        })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (confirmStatus) {
-          confirmStatus.textContent = data.telegramSent
-            ? "✅ Замовлення автоматично відправлено у Telegram на кухню! Очікуйте дзвінка для підтвердження."
-            : "✅ Замовлення збережено! Натисніть «Надіслати у Telegram» або зателефонуйте для миттєвого підтвердження:";
-        }
-      }
-    } catch {
-      // Running as static page without backend
-    }
+    setupConfirmLinks(receiptText);
+    if (confirmStatus) confirmStatus.textContent = NOT_SENT_TEXT;
 
     confirmBox?.removeAttribute("hidden");
-    confirmBox?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    confirmBox?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+    confirmNum?.focus({ preventScroll: true });
+
+    // Автоматично копіюємо чек у буфер обміну
+    const copied = await copyTextToClipboard(receiptText);
+    if (copyNote) {
+      copyNote.textContent = copied
+        ? "Чек скопійовано — його можна просто вставити в чат."
+        : "Не вдалося скопіювати автоматично — натисніть «Скопіювати чек».";
+    }
+
+    // Відправка на сервер — лише якщо налаштовано CONFIG.orderEndpoint
+    if (CONFIG.orderEndpoint) {
+      if (submitBtn) submitBtn.disabled = true;
+      if (confirmStatus) confirmStatus.textContent = "Надсилаємо замовлення на кухню…";
+      let sent = false;
+      try {
+        const res = await fetch(CONFIG.orderEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderNum,
+            name,
+            phone,
+            fulfillment,
+            address,
+            readyTime,
+            payment,
+            comment,
+            items: state.cart,
+            subtotal,
+            deliveryLabel,
+            grandTotal,
+            receiptText
+          })
+        });
+        sent = res.ok;
+      } catch {
+        sent = false;
+      }
+      if (confirmStatus) {
+        confirmStatus.textContent = sent
+          ? "✅ Замовлення надіслано на кухню. Чекайте дзвінка для підтвердження."
+          : NOT_SENT_TEXT;
+      }
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 
   document.getElementById("copyReceiptBtn")?.addEventListener("click", async (e) => {
+    const btn = e.currentTarget;
     const receiptPre = document.getElementById("confirmReceiptText");
-    if (!receiptPre) return;
-    try {
-      await navigator.clipboard.writeText(receiptPre.textContent);
-      e.target.textContent = "✓ Чек скопійовано!";
-      setTimeout(() => {
-        e.target.textContent = "📋 Скопіювати чек";
-      }, 1500);
-    } catch {
-      // Fallback
+    const copyNote = document.getElementById("confirmCopyStatus");
+    if (!receiptPre || !btn) return;
+    const ok = await copyTextToClipboard(receiptPre.textContent);
+    btn.textContent = ok ? "✓ Чек скопійовано!" : "Не вдалося скопіювати";
+    if (copyNote) {
+      copyNote.textContent = ok
+        ? "Чек скопійовано — його можна просто вставити в чат."
+        : "Не вдалося скопіювати автоматично — виділіть текст чека вручну та скопіюйте його.";
+    }
+    setTimeout(() => {
+      btn.textContent = "📋 Скопіювати чек";
+    }, 1800);
+  });
+
+  document.getElementById("newOrderBtn")?.addEventListener("click", () => {
+    state.cart = [];
+    saveCart();
+    form.reset();
+    [...form.elements].forEach((el) => {
+      el.classList?.remove("user-invalid-fallback", "user-valid-fallback");
+      if (el.matches?.("input, select, textarea")) {
+        el.setAttribute("aria-invalid", "false");
+        if (el.dataset?.error) linkError(el, false);
+      }
+    });
+    applyFulfillmentMode();
+    setTimeout(() => [...form.elements].forEach((el) => syncAria(el)));
+    const confirmBox = document.getElementById("orderConfirmationBox");
+    confirmBox?.setAttribute("hidden", "");
+    const receiptPre = document.getElementById("confirmReceiptText");
+    const copyNote = document.getElementById("confirmCopyStatus");
+    const confirmStatus = document.getElementById("confirmServerStatus");
+    if (receiptPre) receiptPre.textContent = "";
+    if (copyNote) copyNote.textContent = "";
+    if (confirmStatus) confirmStatus.textContent = NOT_SENT_TEXT;
+    const submitBtn = document.getElementById("submitOrderBtn");
+    if (submitBtn) submitBtn.disabled = false;
+    updateCartUI();
+    const dlg = document.getElementById("checkoutDialog");
+    if (dlg) {
+      dlg.scrollTop = 0;
+      dlg.close();
     }
   });
 }
@@ -1092,12 +1311,17 @@ function setupValidationAndForm() {
 /* 6. CATEGORY TABS & INIT */
 function setupTabs() {
   const tabs = document.querySelectorAll(".tab-btn");
+  const tabsRow = document.querySelector(".category-tabs");
   const activateCategory = (cat) => {
     state.activeCategory = cat;
     tabs.forEach((t) => {
       const active = t.dataset.category === cat;
       t.classList.toggle("active", active);
       t.setAttribute("aria-selected", active ? "true" : "false");
+      if (active && tabsRow) {
+        const left = t.offsetLeft - (tabsRow.clientWidth - t.offsetWidth) / 2;
+        tabsRow.scrollTo({ left: Math.max(0, left), behavior: scrollBehavior() });
+      }
     });
     renderMenu();
   };
@@ -1105,25 +1329,38 @@ function setupTabs() {
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       activateCategory(tab.dataset.category || "all");
+      // Якщо вкладки «прилипли» під шапкою — повертаємо початок списку в поле зору
+      const grid = document.getElementById("menuGrid");
+      if (tabsRow && grid) {
+        const headerH = document.querySelector(".site-header")?.offsetHeight || 0;
+        const stuck = tabsRow.getBoundingClientRect().top <= headerH + 2;
+        if (stuck) {
+          const top = window.scrollY + grid.getBoundingClientRect().top - headerH - tabsRow.offsetHeight - 8;
+          window.scrollTo({ top: Math.max(0, top), behavior: scrollBehavior() });
+        }
+      }
     });
   });
 
   document.querySelectorAll("[data-filter-jump]").forEach((btn) => {
     btn.addEventListener("click", () => {
       activateCategory(btn.dataset.filterJump || "combos");
-      document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById("menu")?.scrollIntoView({ behavior: scrollBehavior() });
     });
   });
 
   const jumpToMenuItem = (itemId) => {
     if (!itemId) return;
+    const item = MENU_ITEMS.find((m) => m.id === itemId);
+    if (!item) {
+      console.warn(`[menu] Страву з id "${itemId}" не знайдено у MENU_ITEMS — перехід скасовано.`);
+      return;
+    }
+
     const postersDialog = document.getElementById("postersDialog");
     if (postersDialog?.open) {
       postersDialog.close();
     }
-
-    const item = MENU_ITEMS.find((m) => m.id === itemId);
-    if (!item) return;
 
     if (state.activeCategory !== "all" && state.activeCategory !== item.category) {
       activateCategory("all");
@@ -1131,7 +1368,7 @@ function setupTabs() {
 
     const cardEl = document.querySelector(`.menu-card[data-item-id="${itemId}"]`);
     if (cardEl) {
-      cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      cardEl.scrollIntoView({ behavior: scrollBehavior(), block: "center" });
       cardEl.classList.remove("highlight-flash");
       void cardEl.offsetWidth;
       cardEl.classList.add("highlight-flash");
@@ -1144,6 +1381,9 @@ function setupTabs() {
   };
 
   document.querySelectorAll("[data-jump-item]").forEach((el) => {
+    if (!MENU_ITEMS.some((m) => m.id === el.dataset.jumpItem)) {
+      console.warn(`[menu] Елемент з data-jump-item="${el.dataset.jumpItem}" не має відповідної страви у MENU_ITEMS.`);
+    }
     el.addEventListener("click", (e) => {
       if (e.target.closest("a")) return;
       jumpToMenuItem(el.dataset.jumpItem);
@@ -1159,8 +1399,25 @@ function setupTabs() {
   });
 }
 
+function setupHeaderHeightSync() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+  const apply = () => {
+    const h = Math.round(header.getBoundingClientRect().height);
+    if (h > 0) document.documentElement.style.setProperty("--header-h", `${h}px`);
+  };
+  apply();
+  if (typeof ResizeObserver === "function") {
+    new ResizeObserver(apply).observe(header);
+  } else {
+    window.addEventListener("resize", apply);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  setupHeaderHeightSync();
   updateOpenStatus();
+  state.cart = loadCart();
   renderMenu();
   updateCartUI();
   setupTabs();
