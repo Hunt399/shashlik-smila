@@ -634,6 +634,11 @@ function renderMenu() {
         addBtn.textContent = origText;
       }, 900);
     });
+
+    const mediaEl = cardEl.querySelector(".menu-card-media");
+    mediaEl?.addEventListener("click", () => {
+      addBtn?.click();
+    });
   });
 }
 
@@ -1105,6 +1110,49 @@ function setupTabs() {
     btn.addEventListener("click", () => {
       activateCategory(btn.dataset.filterJump || "combos");
       document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  const jumpToMenuItem = (itemId) => {
+    if (!itemId) return;
+    const postersDialog = document.getElementById("postersDialog");
+    if (postersDialog?.open) {
+      postersDialog.close();
+    }
+
+    const item = MENU_ITEMS.find((m) => m.id === itemId);
+    if (!item) return;
+
+    if (state.activeCategory !== "all" && state.activeCategory !== item.category) {
+      activateCategory("all");
+    }
+
+    const cardEl = document.querySelector(`.menu-card[data-item-id="${itemId}"]`);
+    if (cardEl) {
+      cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      cardEl.classList.remove("highlight-flash");
+      void cardEl.offsetWidth;
+      cardEl.classList.add("highlight-flash");
+      const addBtn = cardEl.querySelector("[data-add-btn]");
+      addBtn?.focus({ preventScroll: true });
+      setTimeout(() => {
+        cardEl.classList.remove("highlight-flash");
+      }, 3300);
+    }
+  };
+
+  document.querySelectorAll("[data-jump-item]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
+      jumpToMenuItem(el.dataset.jumpItem);
+    });
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        if (el.tagName !== "BUTTON") {
+          e.preventDefault();
+          jumpToMenuItem(el.dataset.jumpItem);
+        }
+      }
     });
   });
 }
