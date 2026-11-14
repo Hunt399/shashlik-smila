@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ШАШЛИК СМІЛА — Мангал-меню та Чебуреки від Василя | Замовлення та Доставка</title>
+  <meta name="description" content="Справжній шашлик зі свинячого ошийка та курки, фірмова шаурма з мангала, люля-кебаб, хачапурі на шампурі та 5 видів авторських чебуреків у м. Сміла, вул. Богдана Хмельницького, 7. Замовлення онлайн та доставка щодня 09:00–21:00.">
+  <meta name="theme-color" content="#120f0d">
+  <link rel="icon" type="image/jpeg" href="assets/avatar-cheburek.jpg">
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FastFoodRestaurant",
+    "name": "ШАШЛИК СМІЛА — Мангал & Чебуреки від Василя",
+    "alternateName": ["Шашлик Сміла", "Чебуреки Лаваші", "shashlik_vasya_chebureki"],
+    "image": [
+      "assets/hd-pork-shashlik.jpg",
+      "assets/hd-shaurma-mangal.jpg",
+      "assets/hd-chebureki-classic.jpg",
+      "assets/hd-combo-feast.jpg",
+      "assets/avatar-cheburek.jpg"
+    ],
+    "description": "Авторський стрітфуд у Смілі: шашлик на вугіллі, люля-кебаб, фірмова шаурма з мангала, хачапурі на шампурі, крильця KFC та 5 видів гарячих чебуреків.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "вулиця Богдана Хмельницького, 7",
+      "addressLocality": "Сміла",
+      "addressRegion": "Черкаська область",
+      "postalCode": "20705",
+      "addressCountry": "UA"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 49.1984798,
+      "longitude": 31.9010029
+    },
+    "telephone": "+380933030400",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+380933030400",
+        "contactType": "customer service",
+        "areaServed": "UA",
+        "availableLanguage": ["Ukrainian", "Russian"]
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+380937729935",
+        "contactType": "sales",
+        "areaServed": "UA",
+        "availableLanguage": ["Ukrainian", "Russian"]
+      }
+    ],
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "21:00"
+      }
+    ],
+    "servesCuisine": ["Мангал-меню", "Шашлик", "Чебуреки", "Шаурма на вугіллі", "Українська", "Кавказька"],
+    "priceRange": "₴",
+    "sameAs": [
+      "https://www.tiktok.com/@shashlik_vasya_chebureki"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="ШАШЛИК СМІЛА — на початок сторінки">
+        <img
+          src="assets/avatar-cheburek.webp"
+          alt="Вивіска Шашлик Чебуреки та свіжий чебурек"
+          width="52"
+          height="52"
+          class="brand-avatar"
+        >
+        <div class="brand-text">
+          <span class="brand-title">ШАШЛИК СМІЛА</span>
+          <span class="brand-sub">Мангал &amp; Чебуреки від Василя</span>
+        </div>
+      </a>
+
+      <nav class="main-nav" aria-label="Основна навігація">
+        <a href="#menu">Меню і ціни</a>
+        <a href="#combos">Комбо-набори</a>
+        <a href="#tiktok-showcase">З вогню (TikTok)</a>
+        <a href="#delivery">Доставка</a>
+        <a href="#location">Де ми є</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="status-pill" id="openStatusBadge" aria-live="polite">
+          <span class="status-dot"></span>
+          <span id="openStatusText">Щодня 09:00–21:00</span>
+        </div>
+        <a href="tel:+380933030400" class="phone-chip" aria-label="Подзвонити 093 303 04 00">
+          📞 <span>093 303-04-00</span>
+        </a>
+        <button type="button" class="cart-trigger" id="headerCartBtn" aria-label="Відкрити кошик замовлення">
+          <span>🛒 Кошик</span>
+          <span class="cart-badge" id="headerCartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-badges">
+            <a
+              href="https://www.tiktok.com/@shashlik_vasya_chebureki"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="tiktok-pill"
+            >
+              <span class="tiktok-dot">▶</span>
+              <span>TikTok <strong>@shashlik_vasya_chebureki</strong> · 425 відео · 4.5K підписників · 60.6K ❤️</span>
+            </a>
+            <span class="fire-pill">🔥 Мангал · Чебуреки · Домашня Тушонка</span>
+          </div>
+
+          <h1>Справжній шашлик, реберця BBQ, чебуреки та домашня тушонка у Смілі</h1>
+          <p class="hero-lead">
+            Крафтова м'ясна кухня повного циклу від власника <strong>Василя</strong>: власна розрубка свіжини, соковитий ошийок і реберця BBQ на вугіллі, фірмова шаурма з мангала, «Мисливська в тісті з сулугуні», 5 видів гігантських чебуреків у коробках та домашня тушонка з відправкою Новою Поштою.
+          </p>
+
+          <div class="hero-meta-cards">
+            <div class="meta-card">
+              <span class="meta-icon" aria-hidden="true">📍</span>
+              <div>
+                <strong>вул. Богдана Хмельницького, 7</strong>
+                <span>Напроти вул. Т. Шевченка · біля лікарні та вокзалу</span>
+              </div>
+            </div>
+            <div class="meta-card">
+              <span class="meta-icon" aria-hidden="true">🕘</span>
+              <div>
+                <strong>9:00 – 21:00 щодня</strong>
+                <span>Передзамовлення без черги та доставка по Смілі</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-cta-group">
+            <a href="#menu" class="btn btn-primary btn-lg">🔥 Замовити онлайн</a>
+            <button type="button" class="btn btn-outline btn-lg" id="openPostersBtn">
+              📋 Оригінальне меню-прайс
+            </button>
+            <a href="tel:+380933030400" class="btn btn-ghost btn-lg">
+              📞 093 303-04-00
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card-stack">
+            <figure class="hero-main-photo">
+              <img
+                src="assets/hd-shaurma-mangal.webp"
+                alt="Фірмова шаурма з хрусткою скоринкою на решітці мангала"
+                width="960"
+                height="716"
+                fetchpriority="high"
+              >
+              <figcaption class="photo-caption">
+                <span>🌯 Фірмова шаурма з мангала — <strong>150 ₴</strong></span>
+              </figcaption>
+            </figure>
+            <div class="hero-side-photos">
+              <figure class="side-photo">
+                <img
+                  src="assets/hd-pork-shashlik.webp"
+                  alt="Соковитий шашлик зі свинячого ошийка на шампурах від Василя"
+                  width="960"
+                  height="716"
+                >
+                <figcaption>🥩 Свіжий ошийок — <strong>80 ₴ / 100 г</strong></figcaption>
+              </figure>
+              <figure class="side-photo">
+                <img
+                  src="assets/hd-chebureki-classic.webp"
+                  alt="Гарячі золотисті чебуреки з хрусткою скоринкою та соковитою начинкою"
+                  width="960"
+                  height="716"
+                >
+                <figcaption>🥟 Чебуреки (200 г) — <strong>від 80 ₴</strong></figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US / VALUE PROPS -->
+    <section class="features-strip" aria-label="Наші переваги">
+      <div class="container features-grid">
+        <div class="feature-item">
+          <span class="feature-num">01</span>
+          <div>
+            <h2>Авторські рецепти Василя</h2>
+            <p>Власний маринад м'яса без хімії, тонке хрустке тісто на чебуреки та начинка, якої не шкодують.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-num">02</span>
+          <div>
+            <h2>Все з живого вогню</h2>
+            <p>Навіть фірмову шаурму та хачапурі обсмажуємо на вугіллі — зі справжнім ароматом димку.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-num">03</span>
+          <div>
+            <h2>Без очікування біля вікна</h2>
+            <p>Замовляйте на сайті на точний час самовивозу або оформлюйте доставку додому чи в офіс.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE MENU SECTION -->
+    <section id="menu" class="menu-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">СМАЧНО З ВОГНЕМ · ВСЕ ГОТУЄМО З ДУШЕЮ</span>
+            <h2>Актуальне меню та онлайн-замовлення</h2>
+          </div>
+          <p class="section-sub">
+            Обирайте вагу порції шашлику або додатки до чебуреків та шаурми — кошик порахує точну суму.
+          </p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="category-tabs" role="tablist" aria-label="Категорії меню">
+          <button type="button" class="tab-btn active" data-category="all" role="tab" aria-selected="true">
+            🔥 Все меню
+          </button>
+          <button type="button" class="tab-btn" data-category="mangal" role="tab" aria-selected="false">
+            🥩 Мангал &amp; Казан
+          </button>
+          <button type="button" class="tab-btn" data-category="chebureki" role="tab" aria-selected="false">
+            🥟 Чебуреки та Тісто
+          </button>
+          <button type="button" class="tab-btn" data-category="snacks" role="tab" aria-selected="false">
+            🍗 Крильця, Мойва &amp; Гарніри
+          </button>
+          <button type="button" class="tab-btn" data-category="craft" role="tab" aria-selected="false">
+            🏡 Тушонка &amp; Маринад (Нова Пошта)
+          </button>
+          <button type="button" class="tab-btn" data-category="combos" role="tab" aria-selected="false">
+            🍻 Комбо та VIP-Замовлення
+          </button>
+          <button type="button" class="tab-btn" data-category="addons" role="tab" aria-selected="false">
+            🧄 Соуси та Напої
+          </button>
+        </div>
+
+        <!-- Dynamic Menu Grid -->
+        <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- COMBO HIGHLIGHT BANNER -->
+    <section id="combos" class="combo-banner-section">
+      <div class="container">
+        <div class="combo-banner">
+          <div class="combo-banner-text">
+            <span class="eyebrow">ІДЕАЛЬНО ДО ХОЛОДНИХ НАПОЇВ, ПИВА ТА ДРУЖНЬОЇ КОМПАНІЇ</span>
+            <h2>Збираєтесь компанією або замовляєте вечерю додому?</h2>
+            <p>
+              Додайте у замовлення свіжий шашлик зі свинячого ошийка чи курки, крильця KFC (1 кг — 300 ₴), картоплю по-селянськи та мариновану цибульку. При замовленні від <strong>700 ₴</strong> по ближній зоні Сміли — доставка безкоштовна!
+            </p>
+            <div class="combo-actions">
+              <button type="button" class="btn btn-primary" data-filter-jump="combos">
+                Обрати готовий сет
+              </button>
+              <a href="tel:+380937729935" class="btn btn-outline">
+                📞 Замовити телефоном: 093 772-99-35
+              </a>
+            </div>
+          </div>
+          <div class="combo-banner-visual">
+            <img
+              src="assets/hd-combo-feast.webp"
+              alt="Великий сет шашлику з ошийка, курки, шаурми з мангала та картоплі по-селянськи"
+              width="960"
+              height="716"
+              loading="lazy"
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIKTOK VIDEO / PHOTO SHOWCASE -->
+    <section id="tiktok-showcase" class="showcase-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">НАША ВІДКРИТА КУХНЯ В TIKTOK · 425 ВІДЕО</span>
+            <h2>Живі кадри з мангала та кухні Василя — @shashlik_vasya_chebureki</h2>
+          </div>
+          <a
+            href="https://www.tiktok.com/@shashlik_vasya_chebureki"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-outline"
+          >
+            Перейти в TikTok (4 539 підписників) ↗
+          </a>
+        </div>
+
+        <div class="showcase-grid">
+          <article class="showcase-card">
+            <img
+              src="assets/tt-ribs-shashlik.webp"
+              alt="Соковиті реберця BBQ та шашличок у лаваші з маринованою капустою"
+              width="411"
+              height="537"
+              loading="lazy"
+            >
+            <div class="showcase-info">
+              <span class="showcase-tag">🔥 Хіт з вогню · 5.4K переглядів</span>
+              <h3>Соковиті реберця + шашличок</h3>
+              <p>Подача у свіжому лаваші з маринованою червоною капустою та цибулькою просто з мангала.</p>
+            </div>
+          </article>
+
+          <article class="showcase-card">
+            <img
+              src="assets/tt-myslyvska.webp"
+              alt="Мисливська ковбаска в хрусткому тісті з червоним соусом і сиром сулугуні"
+              width="411"
+              height="537"
+              loading="lazy"
+            >
+            <div class="showcase-info">
+              <span class="showcase-tag">🧀 Авторський ексклюзив</span>
+              <h3>Мисливська в тісті з сулугуні</h3>
+              <p>Мисливська ковбаска з фірмовим червоним соусом та тягучим сулугуні у пухирчастому чебуречному тісті.</p>
+            </div>
+          </article>
+
+          <article class="showcase-card">
+            <img
+              src="assets/tt-cheburek-box.webp"
+              alt="Гігантський золотистий чебурек у фірмовій плоскій коробці"
+              width="411"
+              height="537"
+              loading="lazy"
+            >
+            <div class="showcase-info">
+              <span class="showcase-tag">📦 14.9K переглядів · Фірмова подача</span>
+              <h3>Чебуреки 200 г у крафтових коробках</h3>
+              <p>Ручна розкатка тіста дівчатами та смаження у свіжій прозорій олії. Пакуємо у плоскі коробки, щоб зберегти хрускіт!</p>
+            </div>
+          </article>
+
+          <article class="showcase-card">
+            <img
+              src="assets/tt-tushonka-svyzhyna.webp"
+              alt="Домашня тушонка зі свинини у банках 0,5 л з відправкою Новою Поштою"
+              width="411"
+              height="537"
+              loading="lazy"
+            >
+            <div class="showcase-info">
+              <span class="showcase-tag">🏡 Крафт · Нова Пошта по Україні</span>
+              <h3>Домашня тушонка (0,5 л) та свіжина</h3>
+              <p>Власна розрубка домашнього м'яса: тушонка по 140–150 ₴/банка, паштет та маринований шашлик у відерцях по 2,5 кг.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DELIVERY & PICKUP RULES -->
+    <section id="delivery" class="delivery-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">ШВИДКО ТА ГАРЯЧИМ</span>
+            <h2>Умови самовивозу та доставки по м. Сміла</h2>
+          </div>
+        </div>
+
+        <div class="delivery-grid">
+          <div class="delivery-card highlight">
+            <div class="delivery-icon" aria-hidden="true">🏃‍♂️</div>
+            <h3>Самовивіз «На точний час» — 0 ₴</h3>
+            <p>
+              Не стійте в черзі біля мангала! Оформіть замовлення на сайті або за телефоном за <strong>20–30 хвилин</strong> до приїзду — ми знімемо гарячий шашлик, шаурму чи чебуреки з вогню рівно до вашого приходу.
+            </p>
+            <ul class="delivery-list">
+              <li>Зручний під'їзд авто просто по вул. Богдана Хмельницького, 7</li>
+              <li>2 хвилини пішки від міської лікарні ім. Т. Г. Шевченка</li>
+              <li>5–6 хвилин від залізничного вокзалу ст. ім. Т. Шевченка (ідеально в дорогу в поїзд!)</li>
+            </ul>
+          </div>
+
+          <div class="delivery-card">
+            <div class="delivery-icon" aria-hidden="true">🚗</div>
+            <h3>Адресна доставка по Смілі</h3>
+            <p>
+              Пакуємо у термофольгу та щільні бокси, щоб м'ясо та чебуреки приїхали гарячими і хрусткими:
+            </p>
+            <ul class="delivery-list">
+              <li>
+                <strong>Зона 1 (Вокзал Шевченка, Богдана, вул. Т. Шевченка, Лікарня):</strong>
+                <span>60 ₴ (безкоштовно від <strong>700 ₴</strong>)</span>
+              </li>
+              <li>
+                <strong>Зона 2 (Центр, вул. Незалежності, Машбуд, Стадіон):</strong>
+                <span>80 ₴ (безкоштовно від <strong>900 ₴</strong>)</span>
+              </li>
+              <li>
+                <strong>Зона 3 (РПЗ, Гречківка, Загребля та віддалені вулиці):</strong>
+                <span>100 ₴ (безкоштовно від <strong>1100 ₴</strong>)</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="delivery-card">
+            <div class="delivery-icon" aria-hidden="true">📦</div>
+            <h3>Нова Пошта по Україні &amp; VIP-замовлення</h3>
+            <p>
+              Домашню тушонку (0,5 л — 150 ₴) та паштет відправляємо по всій Україні! Також приймаємо спецзамовлення «На завтра»:
+            </p>
+            <ul class="delivery-list">
+              <li><strong>Нова Пошта (по всій Україні):</strong> відправка домашньої тушонки у банках 0,5 л та паштету</li>
+              <li><strong>Маринований шашлик у відерці (2,5 кг — 700 ₴):</strong> готовий для вашого пікніка або дачі</li>
+              <li><strong>Замовлення «На завтра»:</strong> курча табака на мангалі, запечена рулька, стейки на кістці або свіжина</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCATION & CONTACTS -->
+    <section id="location" class="location-section">
+      <div class="container location-grid">
+        <div class="location-details">
+          <span class="eyebrow">КОНТАКТИ ТА ГЕОЛОКАЦІЯ</span>
+          <h2>Чекаємо на вас щодня з 09:00 до 21:00</h2>
+          <p class="location-lead">
+            <strong>м. Сміла, вул. Богдана Хмельницького, 7</strong><br>
+            Орієнтир: перехрестя з вул. Тараса Шевченка (між вул. Телеграфною та пров. Вокзальним), навпроти лікарні ім. Т. Г. Шевченка.
+          </p>
+
+          <div class="contact-blocks">
+            <div class="contact-item">
+              <span class="contact-label">Телефони для замовлення:</span>
+              <div class="contact-phones">
+                <a href="tel:+380933030400" class="contact-phone">📞 +38 (093) 303-04-00</a>
+                <a href="tel:+380937729935" class="contact-phone">📞 +38 (093) 772-99-35</a>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <span class="contact-label">Графік роботи:</span>
+              <p class="contact-value">Понеділок – Неділя: <strong>09:00 – 21:00</strong> (без вихідних)</p>
+            </div>
+
+            <div class="contact-item">
+              <span class="contact-label">Координати для навігатора:</span>
+              <p class="contact-value"><code>49.198480, 31.901003</code></p>
+            </div>
+          </div>
+
+          <div class="route-buttons">
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=49.1984798,31.9010029"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+            >
+              🗺️ Прокласти маршрут (Google Карти)
+            </a>
+            <a
+              href="https://waze.com/ul?ll=49.1984798,31.9010029&navigate=yes"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-outline"
+            >
+              🚗 Відкрити у Waze
+            </a>
+          </div>
+        </div>
+
+        <div class="map-frame-wrap">
+          <iframe
+            title="Карта розташування ШАШЛИК СМІЛА — вул. Богдана Хмельницького, 7"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=31.8965%2C49.1965%2C31.9045%2C49.2015&amp;layer=mapnik&amp;marker=49.1984798%2C31.9010029"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>ШАШЛИК СМІЛА · Мангал &amp; Чебуреки від Василя</strong>
+        <p>м. Сміла, вул. Богдана Хмельницького, 7 · Щодня 09:00–21:00</p>
+      </div>
+      <div class="footer-links">
+        <a href="tel:+380933030400">093 303-04-00</a>
+        <a href="tel:+380937729935">093 772-99-35</a>
+        <a href="https://www.tiktok.com/@shashlik_vasya_chebureki" target="_blank" rel="noopener noreferrer">
+          TikTok @shashlik_vasya_chebureki
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- STICKY BOTTOM CART BAR -->
+  <div class="sticky-cart-bar" id="stickyCartBar" hidden>
+    <div class="container sticky-cart-inner">
+      <div class="sticky-cart-info">
+        <span class="sticky-cart-title">У кошику: <strong id="stickyCartCount">0</strong> поз. на <strong id="stickyCartTotal">0 ₴</strong></span>
+        <span class="sticky-cart-hint" id="stickyFreeDeliveryHint">Додайте страви для замовлення</span>
+      </div>
+      <button type="button" class="btn btn-primary" id="stickyCheckoutBtn">
+        Оформити замовлення →
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 1: ORIGINAL MENU POSTERS DIALOG (closedby="any") -->
+  <dialog id="postersDialog" class="app-dialog posters-dialog" closedby="any" aria-labelledby="postersDialogTitle">
+    <div class="dialog-header">
+      <h2 id="postersDialogTitle">Оригінальні прайс-борди з нашого TikTok</h2>
+      <button type="button" class="dialog-close" data-close-dialog="postersDialog" aria-label="Закрити вікно прайсів">✕</button>
+    </div>
+    <div class="dialog-body posters-body">
+      <figure class="poster-figure">
+        <img
+          src="assets/poster-mangal.webp"
+          alt="Прайс-лист Мангал-меню Смачно з вогнем"
+          width="411"
+          height="537"
+          fetchpriority="low"
+          loading="lazy"
+        >
+        <figcaption>Мангал-меню: Шашлик, Шаурма фірмова, Хачапурі, Картопля, Крильця KFC</figcaption>
+      </figure>
+      <figure class="poster-figure">
+        <img
+          src="assets/poster-chebureki.webp"
+          alt="Прайс-лист Чебуреки Смак який завжди в моді"
+          width="411"
+          height="537"
+          fetchpriority="low"
+          loading="lazy"
+        >
+        <figcaption>Чебуреки (200 г): Класичний, З курки, 4 сира, З баранини, Салямі + Додатки</figcaption>
+      </figure>
+    </div>
+  </dialog>
+
+  <!-- MODAL 2: CHECKOUT & CART DIALOG (closedby="any") -->
+  <dialog id="checkoutDialog" class="app-dialog checkout-dialog" closedby="any" aria-labelledby="checkoutDialogTitle">
+    <div class="dialog-header">
+      <h2 id="checkoutDialogTitle">🛒 Ваше замовлення</h2>
+      <button type="button" class="dialog-close" data-close-dialog="checkoutDialog" aria-label="Закрити кошик">✕</button>
+    </div>
+
+    <div class="dialog-body">
+      <div id="cartItemsContainer" class="cart-items-list"></div>
+
+      <form id="orderForm" class="order-form" novalidate>
+        <fieldset class="fulfillment-fieldset">
+          <legend>Спосіб отримання</legend>
+          <div class="radio-cards">
+            <label class="radio-card">
+              <input type="radio" name="fulfillment" value="pickup" checked>
+              <span class="radio-card-body">
+                <strong>🏃 Самовивіз (без черги)</strong>
+                <small>вул. Б. Хмельницького, 7 · 0 ₴</small>
+              </span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="fulfillment" value="delivery">
+              <span class="radio-card-body">
+                <strong>🚗 Доставка по Смілі</strong>
+                <small>від 60 ₴ (або безкоштовно від порогу)</small>
+              </span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="fulfillment" value="novaposhta">
+              <span class="radio-card-body">
+                <strong>📦 Нова Пошта по Україні</strong>
+                <small>Для домашньої тушонки та паштету</small>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Delivery Zone & Address (shown when delivery or novaposhta is selected) -->
+        <div id="deliveryFieldsGroup" class="conditional-group" hidden>
+          <div class="field" id="smilaZoneField">
+            <label for="deliveryZone">Район доставки у м. Сміла</label>
+            <span id="zone-hint" class="hint">Оберіть зону для автоматичного розрахунку вартості доставки</span>
+            <select id="deliveryZone" name="deliveryZone" aria-describedby="zone-hint">
+              <option value="zone1">Зона 1: Вокзал Шевченка / Богдана / вул. Шевченка / Лікарня (60 ₴, безкоштовно від 700 ₴)</option>
+              <option value="zone2">Зона 2: Центр / Незалежності / Машбуд (80 ₴, безкоштовно від 900 ₴)</option>
+              <option value="zone3">Зона 3: РПЗ / Гречківка / Загребля / віддалені вулиці (100 ₴, безкоштовно від 1100 ₴)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="customerAddress" id="addressLabel">Адреса доставки (вулиця, будинок, під'їзд або відділення Нової Пошти)</label>
+            <span id="address-hint" class="hint">Для Сміли: вул. Незалежності, 34 · Для Нової Пошти: місто та № відділення/поштомату</span>
+            <input
+              type="text"
+              id="customerAddress"
+              name="customerAddress"
+              autocomplete="street-address"
+              minlength="5"
+              aria-describedby="address-hint"
+              data-error="address-error"
+            >
+            <div id="address-error" class="error-msg">
+              <span role="img" aria-label="Помилка">❌</span> Вкажіть адресу або місто та номер відділення Нової Пошти (мінімум 5 символів).
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="field">
+            <label for="customerName">Ваше ім'я</label>
+            <span id="name-hint" class="hint">Як до вас звертатися</span>
+            <input
+              type="text"
+              id="customerName"
+              name="customerName"
+              required
+              minlength="2"
+              autocomplete="given-name"
+              aria-describedby="name-hint"
+              data-error="name-error"
+            >
+            <div id="name-error" class="error-msg">
+              <span role="img" aria-label="Помилка">❌</span> Будь ласка, введіть ваше ім'я (мінімум 2 літери).
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="customerPhone">Номер телефону</label>
+            <span id="phone-hint" class="hint">Формат: 093 123 45 67 або +380931234567</span>
+            <input
+              type="tel"
+              id="customerPhone"
+              name="customerPhone"
+              required
+              autocomplete="tel"
+              pattern="(\+?38)?[\s\-]?\(?0\d{2}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}"
+              aria-describedby="phone-hint"
+              data-error="phone-error"
+            >
+            <div id="phone-error" class="error-msg">
+              <span role="img" aria-label="Помилка">❌</span> Введіть коректний український номер телефону, наприклад 093 303 04 00.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="field">
+            <label for="readyTime">На який час приготувати?</label>
+            <span id="time-hint" class="hint">Працюємо щодня з 09:00 до 21:00</span>
+            <select id="readyTime" name="readyTime" aria-describedby="time-hint">
+              <option value="Якнайшвидше (~25–30 хв)">🔥 Якнайшвидше (~25–30 хв)</option>
+              <option value="Через 45 хвилин">⏱️ Через 45 хвилин</option>
+              <option value="Через 1 годину">⏱️ Через 1 годину</option>
+              <option value="На конкретний час (вкажу в коментарі)">🕒 На конкретний час (вкажу в коментарі)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="paymentMethod">Спосіб оплати</label>
+            <span id="pay-hint" class="hint">Оплата при отриманні або на картку</span>
+            <select id="paymentMethod" name="paymentMethod" aria-describedby="pay-hint">
+              <option value="Готівкою при отриманні">💵 Готівкою при отриманні</option>
+              <option value="Переказ на картку">💳 Переказ на картку</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="orderComment">Коментар до замовлення (необов'язково)</label>
+          <span id="comment-hint" class="hint">Побажання по прожарці, соусу, часу або решті з купюри</span>
+          <textarea
+            id="orderComment"
+            name="orderComment"
+            rows="2"
+            aria-describedby="comment-hint"
+          ></textarea>
+        </div>
+
+        <div class="order-totals-box" id="orderTotalsBox">
+          <div class="totals-row">
+            <span>Сума страв:</span>
+            <strong id="summarySubtotal">0 ₴</strong>
+          </div>
+          <div class="totals-row" id="summaryDeliveryRow">
+            <span>Доставка:</span>
+            <strong id="summaryDeliveryCost">0 ₴ (Самовивіз)</strong>
+          </div>
+          <div class="totals-row totals-grand">
+            <span>Разом до сплати:</span>
+            <strong id="summaryGrandTotal">0 ₴</strong>
+          </div>
+        </div>
+
+        <div class="form-submit-actions">
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitOrderBtn">
+            ✅ Оформити замовлення
+          </button>
+        </div>
+      </form>
+
+      <!-- Order Confirmation Box (shown after submit) -->
+      <div id="orderConfirmationBox" class="order-confirmation" hidden>
+        <div class="confirm-header">
+          <span class="confirm-badge">🎉 Замовлення сформовано!</span>
+          <h3 id="confirmOrderNumber">Замовлення #101</h3>
+          <p id="confirmServerStatus">
+            Ваш чек готовий. Надішліть його у Telegram/Viber або підтвердіть дзвінком Василю, щоб мангал одразу став до роботи:
+          </p>
+        </div>
+        <pre id="confirmReceiptText" class="receipt-preview"></pre>
+        <div class="confirm-actions">
+          <a id="confirmTelegramShareBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            ✈️ Надіслати у Telegram
+          </a>
+          <a id="confirmViberShareBtn" href="#" class="btn btn-outline">
+            💬 Відкрити у Viber
+          </a>
+          <button type="button" id="copyReceiptBtn" class="btn btn-outline">
+            📋 Скопіювати чек
+          </button>
+          <a href="tel:+380933030400" class="btn btn-ghost">
+            📞 Подзвонити Васі: 093 303-04-00
+          </a>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
